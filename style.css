@@ -1,0 +1,74 @@
+body {
+   margin: 0;
+   padding: 0;
+   height: 100vh;
+   width: 100vw;
+   display: flex; 
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+}
+
+.container {
+    width: 500px;
+    height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.gameboard {
+    display: flex;
+    flex-wrap: wrap;
+    width: 300px;
+    height: 300px;
+    border: 2px solid black;
+    
+
+}
+
+.square {
+    width: 100px;
+    height: 100px;
+    border: 2px solid black;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.O {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    border: 20px solid red;
+    box-sizing: border-box;
+}
+.X {
+    width: 90px;
+    height: 90px;
+    position: relative;
+    transform: rotate(45deg);
+    
+}
+
+.X:before, .X:after {
+    background-color: green;
+    position: absolute;
+    content: '';
+
+}
+
+.X:before {
+    left: 50%;
+    width: 30%;
+    margin-left: -15%;;
+    height: 100%
+}
+
+.X:after {
+    top: 50%;
+    height: 30%;
+    margin-top: -15%;;
+    width: 100%
+}
