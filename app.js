@@ -26,7 +26,8 @@ const playerFactory = (name, marker) => {
     return {name, marker};
 };
 
-const gameController = (() => {    
+const gameController = (() => {   
+    const winnerDisplay = document.querySelector('.info'); 
     let activePlayer = 'O';
     let isGameOver = false;
     let board = createGameboard.board;
@@ -56,6 +57,7 @@ const populateGamebooard = () => {
             cellElement.classList.add('square');
             cellElement.setAttribute('data-row', i);
             cellElement.setAttribute('data-elem', index);
+            winnerDisplay.textContent = `it's ${activePlayer} move`;
             cellElement.addEventListener('click', addMarker);
 
             createGameboard.gameBoard.append(cellElement);
@@ -64,17 +66,18 @@ const populateGamebooard = () => {
     });
 }
 populateGamebooard();
+
 function addMarker(e) {
     if (isGameOver) return;
 
     const markerDisplay = document.createElement('div');
     markerDisplay.classList.add(activePlayer);
-    createGameboard.board[e.target.getAttribute('data-row')][e.target.getAttribute('data-elem')] = activePlayer;    //add marker to array
-    activePlayer = activePlayer === player1.marker ? player2.marker : player1.marker;
+    board[e.target.getAttribute('data-row')][e.target.getAttribute('data-elem')] = activePlayer;    //add marker to array
+    activePlayer = activePlayer === player1.marker ? player2.name : player1.name;
     e.target.append(markerDisplay);
 
     e.target.removeEventListener('click', addMarker);
-
+    showPlayer(activePlayer);
     checkWinner();
 };
 
@@ -94,8 +97,22 @@ function checkWinner() {
     }
 }
 
+function showPlayer(marker) {
+    if (marker === 'O') {
+       winnerDisplay.textContent = `It's ${player1.marker} move`;
+       winnerDisplay.classList.toggle('red');
+       
+       
+    }
+    if (marker === 'X') {
+        winnerDisplay.textContent = `It's ${player2.marker} move`;
+        
+        winnerDisplay.classList.toggle('green');
+    }
+}
+
 function showWinner(player) {
-    const winnerDisplay = document.createElement('div');
+   
 
     winnerDisplay.classList.add('winner');
 
@@ -105,7 +122,7 @@ function showWinner(player) {
         winnerDisplay.textContent = "It's a draw!";
     }
 
-    createGameboard.gameBoard.append(winnerDisplay);
+    
 
     // Add a reset button after a delay
     setTimeout(() => {
@@ -124,6 +141,7 @@ function resetGame() {
     createGameboard.gameBoard.innerHTML = '';
     console.log(createGameboard.board);
     populateGamebooard();
+    winnerDisplay.classList.remove('winner');
    
     
     

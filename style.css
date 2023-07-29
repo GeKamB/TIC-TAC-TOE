@@ -7,12 +7,15 @@ body {
    flex-direction: column;
    justify-content: center;
    align-items: center;
+   font-size: 25px;
+   background-color: slategray;
 }
 
 .container {
     width: 500px;
     height: 500px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
@@ -23,10 +26,25 @@ body {
     width: 300px;
     height: 300px;
     border: 2px solid black;
+    justify-content: center;
     
 
 }
 
+
+
+.info {
+    margin: 1rem;
+    font-weight: 800;
+    
+    
+}
+.green {
+    color: rgb(5, 250, 5);
+}
+.red {
+    color: rgb(170, 36, 36);
+}
 .square {
     width: 100px;
     height: 100px;
@@ -35,6 +53,9 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.winner {
+    color: goldenrod;
 }
 
 .O {
@@ -71,4 +92,13 @@ body {
     height: 30%;
     margin-top: -15%;;
     width: 100%
+}
+
+.resetButton {
+    margin: 1rem;
+    width: 5rem;
+    height: 5rem;
+    background-color: rgb(115, 255, 0);
+    font-size: 20px;
+   
 }
