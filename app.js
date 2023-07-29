@@ -34,7 +34,7 @@ const gameController = (() => {
 
     const player1 = playerFactory('Player 1', 'O');
     const player2 = playerFactory('Player 2', 'X');
-
+    startGame();
     const winCombinations = [
         // Rows
         [0, 1, 2],
@@ -73,7 +73,7 @@ function addMarker(e) {
     const markerDisplay = document.createElement('div');
     markerDisplay.classList.add(activePlayer);
     board[e.target.getAttribute('data-row')][e.target.getAttribute('data-elem')] = activePlayer;    //add marker to array
-    activePlayer = activePlayer === player1.marker ? player2.name : player1.name;
+    activePlayer = activePlayer === player1.marker ? player2.marker : player1.marker;
     e.target.append(markerDisplay);
 
     e.target.removeEventListener('click', addMarker);
@@ -99,15 +99,15 @@ function checkWinner() {
 
 function showPlayer(marker) {
     if (marker === 'O') {
-       winnerDisplay.textContent = `It's ${player1.marker} move`;
-       winnerDisplay.classList.toggle('red');
+       winnerDisplay.textContent = `It's ${player1.name} move`;
+      
        
        
     }
     if (marker === 'X') {
-        winnerDisplay.textContent = `It's ${player2.marker} move`;
+        winnerDisplay.textContent = `It's ${player2.name} move`;
         
-        winnerDisplay.classList.toggle('green');
+        
     }
 }
 
@@ -146,6 +146,24 @@ function resetGame() {
     
     
 }
+
+function startGame() {
+    const startScreen = document.querySelector('.startScreen');
+    const markerButtons = document.querySelectorAll('.chooseMarker');
+    let board = document.querySelector('.container');
+    markerButtons.forEach(button => {
+       button.addEventListener('click', (e) => {
+        activePlayer = e.target.getAttribute('value');
+        board.style.display = 'flex';
+        startScreen.style.display = 'none';
+        player1.name = prompt('What is your name ?');
+        player1.marker = activePlayer
+        winnerDisplay.textContent = `${player1.name} start the game`;
+
+       }) 
+    })
+
+};
 
     
     

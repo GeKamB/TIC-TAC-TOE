@@ -10,11 +10,19 @@ body {
    font-size: 25px;
    background-color: slategray;
 }
+.startScreen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+}
 
 .container {
     width: 500px;
     height: 500px;
-    display: flex;
+    display: none;
     flex-direction: column;
     justify-content: center;
     align-items: center;
