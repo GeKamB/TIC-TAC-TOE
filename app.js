@@ -30,11 +30,11 @@ const gameController = (() => {
     const winnerDisplay = document.querySelector('.info'); 
     let activePlayer = 'O';
     let isGameOver = false;
-    let board = createGameboard.board;
+    
 
     const player1 = playerFactory('Player 1', 'O');
-    const player2 = playerFactory('Player 2', 'X');
-    startGame();
+    const player2 = playerFactory('Player 2', 'X'); 
+    
     const winCombinations = [
         // Rows
         [0, 1, 2],
@@ -51,6 +51,7 @@ const gameController = (() => {
 
 const populateGamebooard = () => {
 
+    createGameboard.gameBoard.innerHTML = ''; // Clear the previous board
     createGameboard.board.forEach((row, i) => {
         row.forEach((_cell, index) => {
             const cellElement = document.createElement('div');
@@ -61,25 +62,43 @@ const populateGamebooard = () => {
             cellElement.addEventListener('click', addMarker);
 
             createGameboard.gameBoard.append(cellElement);
-
         });
     });
 }
 populateGamebooard();
-
+startGame();
 function addMarker(e) {
     if (isGameOver) return;
 
     const markerDisplay = document.createElement('div');
     markerDisplay.classList.add(activePlayer);
-    board[e.target.getAttribute('data-row')][e.target.getAttribute('data-elem')] = activePlayer;    //add marker to array
+    createGameboard.board[e.target.getAttribute('data-row')][e.target.getAttribute('data-elem')] = activePlayer;
     activePlayer = activePlayer === player1.marker ? player2.marker : player1.marker;
     e.target.append(markerDisplay);
 
     e.target.removeEventListener('click', addMarker);
     showPlayer(activePlayer);
     checkWinner();
+
+    // After the player makes a move, let the AI make its move
+    if (!isGameOver && activePlayer === player2.marker) {
+        setTimeout(makeAIMove, 500); // Adjust the delay as needed (500ms in this example)
+    }
 };
+function makeAIMove() {
+    const emptyCells = createGameboard.board.flat().map((cell, index) => {
+        return cell === 0 ? index : -1;
+    }).filter(index => index !== -1);
+
+    const randomIndex = Math.floor(Math.random() * emptyCells.length);
+    const aiMoveIndex = emptyCells[randomIndex];
+
+    const aiMoveRow = Math.floor(aiMoveIndex / 3);
+    const aiMoveColumn = aiMoveIndex % 3;
+
+    const aiMoveElement = document.querySelector(`[data-row="${aiMoveRow}"][data-elem="${aiMoveColumn}"]`);
+    addMarker({ target: aiMoveElement });
+}
 
 function checkWinner() {
     const checkPlayer = (player) => winCombinations.some(combination => combination.every(index => createGameboard.board.flat()[index] === player.marker));
@@ -98,13 +117,12 @@ function checkWinner() {
 }
 
 function showPlayer(marker) {
-    if (marker === 'O') {
+    if (marker === player1.marker) {
        winnerDisplay.textContent = `It's ${player1.name} move`;
       
        
        
-    }
-    if (marker === 'X') {
+    } else {
         winnerDisplay.textContent = `It's ${player2.name} move`;
         
         
@@ -135,13 +153,15 @@ function showWinner(player) {
 }
 
 function resetGame() {
-    isGameOver = false;
-    activePlayer = 'O';
+    isGameOver = false;    
     createGameboard.board = createGameboard.board.map(row => row.map(() => 0));
     createGameboard.gameBoard.innerHTML = '';
-    console.log(createGameboard.board);
+    
     populateGamebooard();
     winnerDisplay.classList.remove('winner');
+    winnerDisplay.textContent = `It's ${player1.name} move`
+    activePlayer = player1.marker;
+    
    
     
     
@@ -157,8 +177,20 @@ function startGame() {
         board.style.display = 'flex';
         startScreen.style.display = 'none';
         player1.name = prompt('What is your name ?');
-        player1.marker = activePlayer
+        player1.marker = activePlayer;
+        let myFunc = () => {
+            if (player1.marker === 'O') {
+                return 'X'
+            } else {
+                return 'O'
+            }
+        }
+        player2.marker = myFunc();
+        
+        
+        
         winnerDisplay.textContent = `${player1.name} start the game`;
+        
 
        }) 
     })

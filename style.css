@@ -18,6 +18,25 @@ body {
     width: 100vw;
     height: 100vh;
 }
+.chooseMarker {
+    position: relative;
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #fff;
+    border: 3px solid black;
+   
+    transition: border 1s;
+    color: #000;
+    text-decoration: none;
+  }
+
+  .chooseMarker:hover {
+    background-color: chartreuse;
+    border: 5px solid red;
+    
+    
+  }
 
 .container {
     width: 500px;
@@ -107,6 +126,15 @@ body {
     width: 5rem;
     height: 5rem;
     background-color: rgb(115, 255, 0);
+    border: 3px solid black;
     font-size: 20px;
+    transition: border 1s;
    
 }
+
+.resetButton:hover {
+    background-color: chartreuse;
+    border: 5px solid red;
+    
+    
+  }
